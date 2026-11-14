@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="DashBench: Evaluating Video LLMs' Understanding of Corner Cases in Autonomous Driving">
+  <meta name="description" content="DashBench tests 25 Video LLMs on 1,709 ego-view dashcam clips across 88 corner-case categories. The best model explains only 46.52% of corner cases correctly.">
+  <meta name="keywords" content="DashBench, Video LLM, VLM, autonomous driving, corner cases, dashcam, benchmark, hallucination">
+  <meta name="author" content="Gabriel Manalu, Minh Son Hoang, Hyeontaek Hwang, Jaesung Lee, Hyojin Choi, Tran Tuan Phong, Seon Kwon Kim, Saad Wazir, Daeyoung Kim">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="KAIST">
+  <meta property="og:title" content="DashBench: Evaluating Video LLMs' Understanding of Corner Cases in Autonomous Driving">
+  <meta property="og:description" content="25 Video LLMs, 1,709 dashcam clips, 88 corner-case categories. The best model explains only 46.52% of corner cases correctly.">
+  <meta property="og:url" content="https://cornercase-dashbench.github.io/">
+  <meta property="og:image" content="https://cornercase-dashbench.github.io/static/images/fig1_overview.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DashBench: Evaluating Video LLMs' Understanding of Corner Cases in Autonomous Driving">
+  <meta name="twitter:image" content="https://cornercase-dashbench.github.io/static/images/fig1_overview.jpg">
+
+  <!-- Academic / Google Scholar -->
+  <meta name="citation_title" content="Evaluating Video LLMs' Understanding of Corner Cases in Autonomous Driving">
+  <meta name="citation_author" content="Manalu, Gabriel">
+  <meta name="citation_author" content="Hoang, Minh Son">
+  <meta name="citation_author" content="Hwang, Hyeontaek">
+  <meta name="citation_author" content="Lee, Jaesung">
+  <meta name="citation_author" content="Choi, Hyojin">
+  <meta name="citation_author" content="Tran, Tuan Phong">
+  <meta name="citation_author" content="Kim, Seon Kwon">
+  <meta name="citation_author" content="Wazir, Saad">
+  <meta name="citation_author" content="Kim, Daeyoung">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="British Machine Vision Conference (BMVC)">
+
+  <title>DashBench</title>
+  <link rel="icon" href="static/icons/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="static/icons/favicon.ico" sizes="16x16 32x32 48x48">
+  <link rel="apple-touch-icon" href="static/icons/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.2/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css?v=18">
+  <link rel="stylesheet" href="static/css/dashbench.css?v=18">
+
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "Evaluating Video LLMs' Understanding of Corner Cases in Autonomous Driving",
+    "alternativeHeadline": "DashBench",
+    "author": [
+      {"@type": "Person", "name": "Gabriel Manalu"},
+      {"@type": "Person", "name": "Minh Son Hoang"},
+      {"@type": "Person", "name": "Hyeontaek Hwang"},
+      {"@type": "Person", "name": "Jaesung Lee"},
+      {"@type": "Person", "name": "Hyojin Choi"},
+      {"@type": "Person", "name": "Tran Tuan Phong"},
+      {"@type": "Person", "name": "Seon Kwon Kim"},
+      {"@type": "Person", "name": "Saad Wazir"},
+      {"@type": "Person", "name": "Daeyoung Kim"}
+    ],
+    "datePublished": "2026",
+    "publisher": {"@type": "Organization", "name": "British Machine Vision Conference (BMVC)"},
+    "url": "https://cornercase-dashbench.github.io/",
+    "image": "https://cornercase-dashbench.github.io/static/images/fig1_overview.jpg",
+    "keywords": ["autonomous driving", "corner cases", "Video LLM", "benchmark", "dashcam"]
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero is-banner">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              <img class="title-logo" src="static/icons/glyph.png" alt="DashBench icon">Evaluating Video LLMs' Understanding of Corner Cases in Autonomous Driving
+            </h1>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">Gabriel Manalu,</span>
+              <span class="author-block">Minh Son Hoang,</span>
+              <span class="author-block">Hyeontaek Hwang,</span>
+              <span class="author-block">Jaesung Lee,</span>
+              <span class="author-block">Hyojin Choi,</span>
+              <span class="author-block">Tran Tuan Phong,</span>
+              <span class="author-block">Seon Kwon Kim,</span>
+              <span class="author-block">Saad Wazir,</span>
+              <span class="author-block">Daeyoung Kim</span>
+            </div>
+            <div class="is-size-5 publication-authors">
+              <span class="affiliation">School of Computing, Korea Advanced Institute of Science and Technology (KAIST)</span><br>
+              <span class="publication-venue">BMVC 2026</span>
+            </div>
+
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2611.16767" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/rielmvp/cornercase-dashbench" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span><span>Code</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://huggingface.co/datasets/gabrieldavin23/cornercase-dashbench" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-database"></i></span><span>Dataset</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="section-nav" aria-label="Sections">
+    <div class="nav-inner">
+      <a href="#overview">Overview</a>
+      <a href="#examples">Examples</a>
+      <a href="#prompts">Prompts</a>
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#findings">Findings</a>
+      <a href="#citation">Citation</a>
+    </div>
+  </nav>
+
+  <!-- ===================== NEWS + HEADLINE ===================== -->
+  <section class="section" id="overview">
+    <div class="container is-max-desktop">
+      <div class="headline-finding" style="margin-top:2rem">
+        <p>
+          <i class="fas fa-bullhorn" style="color:var(--primary-color)"></i>
+          Across <strong>25 Video LLMs</strong> and <strong>1,709 dashcam corner cases</strong>, the best model (GPT-5) correctly explains only
+          <span class="big-num">46.52%</span> of corner cases on its best prompt and averages <span class="big-num">34.75%</span>.
+          Driving-specialist models fine-tuned on AD data reach at most <span class="accuracy-bad">10.01%</span>.
+        </p>
+        <span class="tagline">Video LLMs routinely miss the hazard in plain sight, or describe hazards that never happened.</span>
+      </div>
+
+      <div class="research-figure">
+        <img src="static/images/fig1_overview.jpg" alt="Overview of DashBench with sample keyframes from collision and non-collision categories">
+        <div class="figure-caption">
+          <strong>Figure 1.</strong> Overview of DashBench. The dataset spans 88 fine-grained categories, 46 collision (890 clips) and 42 non-collision (819 clips). Sample keyframes, categories, and ground-truth annotations are shown.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ABSTRACT ===================== -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Natural language explanations promised by modern Video Large Language Models (Video LLMs) offer autonomous driving systems a path toward detailed scene description and interpretable decision making on the road. While recent benchmarks have begun assessing these models on driving scenes, they mainly target routine traffic conditions and general comprehension tasks based on existing driving datasets and therefore fail to evaluate model performance on the rarest and most safety-critical driving events, also known as <em>corner cases</em>.
+            </p>
+            <p>
+              To provide a comprehensive evaluation of Video LLMs on precisely these scenarios, we introduce <strong>DashBench</strong>, a benchmark testing 25 Video LLMs on 1,709 carefully curated driving videos spanning not only collision-related corner cases but also rare non-collision ones. Through extensive prompts and open-ended question answering, we expose a critical capability gap: all evaluated models perform substantially below the threshold required for safety-critical driving applications, frequently misjudging or missing dangerous events on the road ahead and hallucinating non-existent agents or actions in their explanations.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== WHY + DATASET ===================== -->
+  <section class="section" id="dataset">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Why Corner Cases?</h2>
+      <div class="content-text">
+        <p>
+          Autonomous driving systems increasingly use Video LLMs to narrate what they see and why they act. That promise matters most in <strong>corner cases</strong>: rare, unexpected situations that deviate from normal traffic, such as a truck losing control, a cow wandering onto a highway, or a utility pole snapping across the road. Existing benchmarks either cover routine traffic, restrict themselves to crashes, test only static object-level anomalies, or use multiple-choice formats that reward option-picking over real understanding.
+        </p>
+      </div>
+
+      <h2 class="title is-3 has-text-centered" style="margin-top:3.5rem">The DashBench Dataset</h2>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-value">1,709</div><div class="stat-label">ego-view dashcam clips</div></div>
+        <div class="stat-card"><div class="stat-value">88</div><div class="stat-label">corner-case categories</div></div>
+        <div class="stat-card"><div class="stat-value">5</div><div class="stat-label">open-ended prompts per clip</div></div>
+        <div class="stat-card"><div class="stat-value">25</div><div class="stat-label">Video LLMs evaluated</div></div>
+      </div>
+
+      <div class="block-title"><i class="fas fa-scale-balanced"></i>Balanced across collision and non-collision events</div>
+      <div class="split-bar" role="img" aria-label="Collision clips from MM-AU: 890; non-collision clips from MM-AU: 505; non-collision clips from RoadSocial: 314">
+        <div class="seg-collision" style="width:52.08%"><span class="seg-label">Collision (MM-AU)</span><span class="seg-count">890</span></div>
+        <div class="seg-mmau-nc" style="width:29.55%"><span class="seg-label">Non-collision (MM-AU)</span><span class="seg-count">505</span></div>
+        <div class="seg-rs" style="width:18.37%"><span class="seg-label">Non-collision (RoadSocial)</span><span class="seg-count">314</span></div>
+      </div>
+      <div class="split-legend">
+        <span><span class="swatch" style="background:var(--collision)"></span>Collision (MM-AU): 890 clips, 46 categories</span>
+        <span><span class="swatch" style="background:#4f86e0"></span>Non-collision (MM-AU): 505 clips, 11 categories</span>
+        <span><span class="swatch" style="background:#1c4ea8"></span>Non-collision (RoadSocial): 314 clips, 31 new categories</span>
+      </div>
+
+      <div class="block-title"><i class="fas fa-diagram-project"></i>Construction pipeline</div>
+      <div class="research-figure is-medium" style="margin-top:0.5rem">
+        <img src="static/images/fig2_pipeline.jpg" alt="DashBench construction pipeline">
+        <div class="figure-caption">
+          <strong>Figure 2.</strong> MM-AU and RoadSocial videos pass through source-specific filtering and annotation before a category-balanced merge, a quality check, and AI-assisted ground-truth annotation produce the final 1,709-clip benchmark.
+        </div>
+      </div>
+      <div class="step-grid">
+        <div class="step-card">
+          <h4><i class="fas fa-filter"></i>1. Source &amp; filter</h4>
+          <p>All MM-AU non-collision clips are kept and manually inspected. RoadSocial's 13.2K social-media videos are mapped from tags to corner-case categories with an LLM-assisted pipeline, then checked for ego-view dashcam perspective.</p>
+        </div>
+        <div class="step-card">
+          <h4><i class="fas fa-user-check"></i>2. Annotate &amp; balance</h4>
+          <p>Five annotators over four months verify each corner case and label keyframes (start, most observable, end). Collision clips are sampled across all 46 MM-AU collision categories for a category-balanced set.</p>
+        </div>
+        <div class="step-card">
+          <h4><i class="fas fa-pen-nib"></i>3. Ground truth</h4>
+          <p>OpenAI o3 drafts a one-sentence description from three keyframes plus the category, then three annotators refine each draft into a consensus ground-truth label.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EXAMPLES ===================== -->
+  <section class="section hero is-light" id="examples">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Example Gallery</h2>
+      <div class="pill-row" id="galleryFilters"></div>
+      <div class="viewer" id="viewer" tabindex="0" aria-roledescription="carousel" aria-label="Corner case examples">
+        <div class="viewer-stage">
+          <img id="viewerImg" alt="">
+          <video id="viewerVideo" controls muted loop playsinline preload="metadata" hidden></video>
+          
+          <span class="viewer-chip right" id="viewerFrame"></span>
+          <button class="viewer-arrow prev" id="viewerPrev" aria-label="Previous example"><i class="fas fa-chevron-left"></i></button>
+          <button class="viewer-arrow next" id="viewerNext" aria-label="Next example"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="viewer-controls" id="viewerControls">
+          <button class="play-btn" id="viewerPlay" aria-label="Pause"><i class="fas fa-pause"></i></button>
+          <input type="range" class="frame-slider" id="viewerSlider" min="0" max="15" value="0" aria-label="Frame">
+        </div>
+        <div class="viewer-caption">
+          <div class="viewer-tags" id="viewerTags"></div>
+          <div class="viewer-category" id="viewerCategory"></div>
+          <div class="viewer-gt"><span class="gt-label">Ground truth:</span> <span id="viewerGt"></span></div>
+        </div>
+        <div class="viewer-dots" id="viewerDots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROMPTS ===================== -->
+  <section class="section" id="prompts">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Prompts</h2>
+      <p class="section-intro">
+        DashBench is an <strong>open-ended, free-text</strong> benchmark. Every clip is queried with five prompts that vary how strongly the model is cued to look for danger: Q1–Q2 explicitly ask for anomalies, Q3 asks for a plain description with no hint, Q4 asks for a binary decision plus reasoning in JSON, and Q5 first defines what a corner case is.
+      </p>
+      <div class="pill-row prompt-tabs" id="promptTabs"></div>
+      <div class="prompt-panel">
+        <div class="prompt-desc" id="promptDesc"></div>
+        <pre><code id="promptText"></code></pre>
+        <button class="copy-btn" id="copyPrompt"><i class="far fa-copy"></i> Copy</button>
+      </div>
+      <p class="system-prompt">System prompt: <em>"You are a helpful driving-scene assistant. Please be brief and concise in your description. Answer within 250 words."</em></p>
+    </div>
+  </section>
+
+  <!-- ===================== LEADERBOARD ===================== -->
+  <section class="section hero is-light" id="leaderboard">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Leaderboard</h2>
+      <p class="section-intro">Accuracy (%) of 25 Video LLMs on all 1,709 corner cases. <strong>Avg</strong> is the mean of Q1, Q2, Q3, Q4R and Q5. Click a column header to sort.</p>
+      <div class="leaderboard-controls">
+        <div class="pill-row" id="familyFilter">
+          <button class="pill active" data-family="all">All models</button>
+          <button class="pill" data-family="Closed-source"><span class="family-dot fam-closed"></span>Closed-source</button>
+          <button class="pill" data-family="Open-source"><span class="family-dot fam-open"></span>Open-source</button>
+          <button class="pill" data-family="Specialist"><span class="family-dot fam-spec"></span>Driving specialists</button>
+        </div>
+        <label class="checkbox table-note"><input type="checkbox" id="groupToggle" checked> Group by family</label>
+      </div>
+      <div class="table-wrap"><table class="data-table" id="leaderboardTable"></table></div>
+      <p class="table-note">
+        <strong>Bold</strong> = best and <u>underline</u> = second best within a family (per column). "–" means the model could not consistently answer Q4 in the required JSON format. Q4TF measures only binary detection, not grounded explanation.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== FINDINGS ===================== -->
+  <section class="section" id="findings">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Key Findings</h2>
+      <div class="finding-grid">
+        <div class="finding-card">
+          <h4><i class="fas fa-chart-line"></i>Corner cases stay hard at every scale</h4>
+          <p><span class="big">&lt; 35% avg</span>No model exceeds 50% on any prompt. Scaling Qwen3-VL from 8B to 235B adds only about 2 points (18.48% → 20.67%), and the best open model trails GPT-5 by over 14 points.</p>
+        </div>
+        <div class="finding-card">
+          <h4><i class="fas fa-brain"></i>Reasoning and driving fine-tuning don't help</h4>
+          <p><span class="big">≤ 10.01%</span>Seven driving-specialist models fine-tuned on AD datasets score at most 10.01% on average, and several collapse to near zero. Thinking models (GLM-4.1V-Thinking: 6.33%) show no consistent advantage.</p>
+        </div>
+        <div class="finding-card">
+          <h4><i class="fas fa-comment-dots"></i>Models see what they're told to look for</h4>
+          <p><span class="big">−55 pts</span>Detection (Q4TF) is far higher than grounded explanation (Q4R): accuracy drops by about 55 points on average once models must justify their answer. Q3, which gives no hint of danger, is the lowest-scoring prompt for almost every model.</p>
+        </div>
+        <div class="finding-card">
+          <h4><i class="fas fa-ghost"></i>Missed hazards and hallucinated ones</h4>
+          <p><span class="big">2 failure modes</span><strong>Corner-case blindness</strong>: fluent, confident descriptions that ignore the hazard. <strong>Agent/action hallucination</strong>: invented vehicles, objects, or actions, and collisions downgraded to near-misses.</p>
+        </div>
+      </div>
+
+      <div class="block-title"><i class="fas fa-crop-simple"></i>Does focusing on the corner-case window help?</div>
+      <p class="content-text">
+        On the 823 clips where the hazard covers less than half of the clip, we resample all 16 frames from the annotated corner-case window (CCW). Closed-source models gain about 4 points, while open-source models gain only 0.8–2 points. Q1 ("what is unusual?") can even drop, because removing the surrounding normal footage removes the reference for what is unusual.
+      </p>
+      <div class="research-figure is-medium">
+        <img src="static/images/fig4_ccw.jpg" alt="Corner case window example with GPT-5 responses">
+        <div class="figure-caption">
+          <strong>Figure 4.</strong> The red brackets mark the annotated corner-case window. Even when all 16 frames are concentrated on the event (a dump truck merging hazardously), GPT-5 fails to identify the dangerous maneuver.
+        </div>
+      </div>
+      <div class="table-wrap"><table class="data-table" id="ccwTable"></table></div>
+      <p class="table-note">Full-video run vs. CCW run (16 frames from the corner-case window only). Subscripts show the change in points.</p>
+
+      <div class="block-title"><i class="fas fa-wand-magic-sparkles"></i>Can training-free hallucination mitigation fix it?</div>
+      <p class="content-text">
+        We apply three recent training-free decoding methods to InternVL3.5 (8B). TRiCD, the video-native method, gives the largest gain at only +1.16 points; VDGD hurts performance. Each method flips some answers from wrong to right and others from right to wrong.
+      </p>
+      <div class="research-figure is-medium">
+        <img src="static/images/fig5_mitigation.jpg" alt="Flip cases from VDGD, SECOND and TRiCD">
+        <div class="figure-caption">
+          <strong>Figure 5.</strong> "Flip" cases from hallucination-mitigation methods on InternVL3.5 (8B). Top row (A–C): recoveries. Bottom row (D–F): regressions where a correct baseline answer becomes a hallucination.
+        </div>
+      </div>
+      <div class="table-wrap"><table class="data-table" id="mitigationTable"></table></div>
+
+      <div class="callout is-brand" style="margin-top:2.5rem">
+        <h4><i class="fas fa-flag-checkered"></i> Takeaway</h4>
+        <p>
+          Current Video LLMs, whether open or proprietary, large or small, reasoning or not, general or driving-specialized, fall critically short on corner cases. Prompt wording, temporal localization, and training-free decoding all yield only marginal gains. Closing the gap will need fundamentally new approaches: stronger visual grounding, training on diverse corner-case scenarios, and possibly driving world models that can synthesize rare, controllable safety-critical events.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <!--BibTex citation -->
+  <section class="section hero is-light" id="citation">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">Citation</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy citation to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code>@misc{manalu2026evaluatingvideollmsunderstanding,
+  title={Evaluating Video LLMs' Understanding of Corner Cases in Autonomous Driving},
+  author={Gabriel Manalu and Minh Son Hoang and Hyeontaek Hwang and Jaesung Lee and Hyojin Choi and Tran Tuan Phong and Seon Kwon Kim and Saad Wazir and Daeyoung Kim},
+  year={2026},
+  eprint={2611.16767},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/2611.16767},
+}</code></pre>
+    </div>
+  </section>
+  <!--End BibTex citation -->
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>,
+              licensed under the <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+            <p>DashBench clips are derived from <a href="https://github.com/jeffreychou777/LOTVS-MM-AU" target="_blank" rel="noopener">MM-AU</a> and <a href="https://roadsocial.github.io/" target="_blank" rel="noopener">RoadSocial</a>. Please respect their licenses accordingly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="static/js/data.js?v=18"></script>
+  <script src="static/js/index.js?v=18"></script>
+</body>
+</html>
